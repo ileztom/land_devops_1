@@ -1,4 +1,5 @@
 name: Security scan
+
 on:
     workflow_call:
 
