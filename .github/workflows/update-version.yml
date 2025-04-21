@@ -109,7 +109,7 @@ jobs:
       - name: Commit and push
         run: |
           git add .
-          git commit -m "[${{ needs.update-version.outputs.tag }}] ${{ env.CHANGELOG_FILE }}"
+          git diff --quiet || git commit -m "[${{ needs.update-version.outputs.tag }}] ${{ env.CHANGELOG_FILE }}"
           git push -u origin ${{ inputs.release_branch }} --tags 
 
       - uses: actions/upload-artifact@v4
