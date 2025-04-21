@@ -1,4 +1,5 @@
 name: Deploy application
+
 on:
   workflow_call:
     inputs:  
@@ -35,7 +36,7 @@ jobs:
         environment: [dev,test,stage]
     steps:
       - name: Deploy to stands
-        run: echo "start on ${{ matrix.environment }}"
+        run: echo "Start on ${{ matrix.environment }}"
 
   deploy-prod: 
     environment: prod
@@ -47,7 +48,7 @@ jobs:
       repository-projects: write
       id-token: write
     steps:
-      - name: checkout on release branch
+      - name: Checkout on release branch
         uses: actions/checkout@v4
   
       - name: List data about container 
@@ -67,8 +68,6 @@ jobs:
         run: |  
           docker-compose -f docker-compose.yaml --env-file ${{ env.PROD_ENV }} up -d 
 
-      
-
   change-label:
     needs: [deploy-prod]
     runs-on: ubuntu-latest
@@ -84,8 +83,8 @@ jobs:
               labels: ['${{ env.LABEL_PROD }}']
             })
 
-  create-releae: 
-    name: create release 
+  create-release: 
+    name: Create release 
     needs: [change-label]
     runs-on: ubuntu-latest
     steps:
@@ -98,29 +97,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.TAG }}
-          release_name: Релиз ${{ env.TAG }}
+          release_name: Release ${{ env.TAG }}
           body: |
-            #### О приложении 
+            #### About the application 
             > ${{ github.event.repository.description }}
 
-            #### Список задач
-            Фичи: 
-              - ${{inputs.current_branch}}
-            Баги: 
-              - пусто
+            #### Tasks list
+            Features: 
+              - ${{ inputs.current_branch }}
+            Bugs: 
+              - None
 
-            #### О сборке 
-             - Номер PR `${{ github.event.number }}`
-             - Dockerhub https://hub.docker.com/repositories/${{ secrets.DOCKER_USERNAME }}
+            #### Build Information
+             - PR Number: `${{ github.event.number }}`
+             - Dockerhub: https://hub.docker.com/repositories/${{ secrets.DOCKER_USERNAME }}
 
-            #### Как запустить 
+            #### How to run 
             ```
               git clone <special tag>
               docker-compose -f docker-compose.yaml --env-file <special file> up -d 
             ```
             
-            Данный релиз установлен на Промышленный стенд и функционирует стабильно.
+            This release has been deployed on the production environment and is stable.
           draft: false
           prerelease: false
-
-    
