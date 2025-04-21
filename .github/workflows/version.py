@@ -58,6 +58,11 @@ def upgrade_version(version_type, version_catalog):
     else:
         raise ValueError("No such version type: " + version_type)
 
+    # Проверяем, если версия не изменилась, пропускаем commit и push
+    if old_version_list == new_version_list:
+        print("No changes in version. Skipping commit and push.")
+        return
+
     write_version_into_file(new_version_list, version_catalog)
     message = get_message()
     log_version_into_file(new_version_list, old_version_list, message, version_catalog)
