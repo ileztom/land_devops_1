@@ -87,7 +87,7 @@ def get_last_log_msg_from_file(version_catalog):
         if len(line) == 0:
             return '-'
         return line.split('|')[1].strip()
-    
+
 
 def is_file_exists(filename):
     return os.path.isfile(filename)
@@ -120,4 +120,4 @@ elif command_type == 'upgrade_version':
     version_type = args_map['version_type']
     upgrade_version(version_type, version_catalog)
 else:
-    raise ValueError("Unknow command type: " + command_type)
+    raise ValueError("Unknown command type: " + command_type)
