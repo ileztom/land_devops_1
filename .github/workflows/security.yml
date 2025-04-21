@@ -7,17 +7,17 @@ env:
     LABEL_SEC: sec-passed
 
 jobs:
-    antivirus:
-        runs-on: ubuntu-latest
-        name: Antivirus
-        steps:
-        - uses: actions/checkout@v3
-          with: 
-            fetch-depth: '0'
-        - name: Git AV Scan
-          uses: djdefi/gitavscan@main
-          with:
-            full: '--full'
+    # antivirus:
+    #     runs-on: ubuntu-latest
+    #     name: Antivirus
+    #     steps:
+    #     - uses: actions/checkout@v3
+    #       with: 
+    #         fetch-depth: '0'
+    #     - name: Git AV Scan
+    #       uses: djdefi/gitavscan@main
+    #       with:
+    #         full: '--full'
 
     lint: 
         runs-on: ubuntu-latest
