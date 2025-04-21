@@ -1,4 +1,5 @@
-name: Deploy appllication to enviroments
+name: Deploy application to environments
+
 on:
   workflow_call:
     
@@ -10,11 +11,11 @@ jobs:
       repository-projects: write
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare enviroments
+      - name: Prepare environments
         run: |
-          echo "start build application"
+          echo "Start build application"
       
-      - name: Сheckout on [release]
+      - name: Checkout on [release]
         uses: actions/checkout@v4
 
       - name: Comment about build application 
