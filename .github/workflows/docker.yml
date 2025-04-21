@@ -1,4 +1,5 @@
 name: Docker push
+
 on:
     workflow_call:
         inputs:
@@ -19,7 +20,6 @@ env:
     CONTAINER_NAME: land_devops
     LABEL_DOCKER: dockerhub
 
-
 jobs:
     docker-push:
         name: (CI) Docker push
@@ -34,7 +34,7 @@ jobs:
             run: | 
                 echo "show variables"
                 echo [${{ inputs.tag }}]
-        -   name: Сheckout on [${{ inputs.release_branch }}] and v [${{ inputs.tag }}]
+        -   name: Checkout on [${{ inputs.release_branch }}] and v [${{ inputs.tag }}]
             uses: actions/checkout@v4
 
         -   name: Log in to Docker Hub
