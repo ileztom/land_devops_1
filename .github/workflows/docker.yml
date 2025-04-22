@@ -66,20 +66,38 @@ jobs:
         -   uses: actions/github-script@v7
             with:
                 script: |
-                    github.rest.issues.addLabels({
-                    issue_number: context.issue.number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    labels: ['dockerhub','${{ inputs.tag }}']
-                    })
+                    try {
+                        if (context.issue && context.issue.number) {
+                            github.rest.issues.addLabels({
+                                issue_number: context.issue.number,
+                                owner: context.repo.owner,
+                                repo: context.repo.repo,
+                                labels: ['dockerhub','${{ inputs.tag }}']
+                            });
+                            console.log('Added dockerhub labels to issue/PR #' + context.issue.number);
+                        } else {
+                            console.log('No issue or PR number found in context. Skipping label addition.');
+                        }
+                    } catch (error) {
+                        console.error('Error adding label:', error.message);
+                    }
 
         -   name: Change label
             uses: actions/github-script@v7
             with:
                 script: |
-                    github.rest.issues.addLabels({
-                    issue_number: context.issue.number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    labels: ['changelog-${{ env.LABEL_DOCKER }}']
-                    })
+                    try {
+                        if (context.issue && context.issue.number) {
+                            github.rest.issues.addLabels({
+                                issue_number: context.issue.number,
+                                owner: context.repo.owner,
+                                repo: context.repo.repo,
+                                labels: ['changelog-${{ env.LABEL_DOCKER }}']
+                            });
+                            console.log('Added changelog label to issue/PR #' + context.issue.number);
+                        } else {
+                            console.log('No issue or PR number found in context. Skipping label addition.');
+                        }
+                    } catch (error) {
+                        console.error('Error adding label:', error.message);
+                    }
