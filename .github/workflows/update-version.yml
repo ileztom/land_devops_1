@@ -82,14 +82,9 @@ jobs:
             git commit -m "${{ env.COMMIT_MSG }}"
           fi
           git tag -a v${{ env.TAG_MSG }} -m "update tag"
-          # Check if the branch exists remotely
-          if git ls-remote --heads origin ${{ inputs.release_branch }} | grep -q ${{ inputs.release_branch }}; then
-            echo "Branch ${{ inputs.release_branch }} exists, pushing to it"
-            git push -u origin ${{ inputs.release_branch }} --tags
-          else
-            echo "Branch ${{ inputs.release_branch }} does not exist, pushing to current branch"
-            git push -u origin HEAD --tags
-          fi
+          # Always push the current branch and the tags
+          echo "Pushing current branch and tags"
+          git push -u origin HEAD --tags
 
   update_changelog:
     name: (VER) Changelog update
@@ -126,14 +121,9 @@ jobs:
             echo "No changes to commit in changelog. Skipping commit step."
           else
             git commit -m "[${{ needs.update-version.outputs.tag }}] ${{ env.CHANGELOG_FILE }}"
-            # Check if the branch exists remotely
-            if git ls-remote --heads origin ${{ inputs.release_branch }} | grep -q ${{ inputs.release_branch }}; then
-              echo "Branch ${{ inputs.release_branch }} exists, pushing to it"
-              git push -u origin ${{ inputs.release_branch }} --tags
-            else
-              echo "Branch ${{ inputs.release_branch }} does not exist, pushing to current branch"
-              git push -u origin HEAD --tags
-            fi
+            # Always push the current branch and the tags
+            echo "Pushing current branch and tags"
+            git push -u origin HEAD --tags
           fi
 
       - uses: actions/upload-artifact@v4
