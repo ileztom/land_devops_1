@@ -134,12 +134,21 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Файл ${{ env.CHANGELOG_FILE }} был обновлен. Новая версия доступна в корне репозитория.'
-            })
+            try {
+              if (context.issue && context.issue.number) {
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: 'Файл ${{ env.CHANGELOG_FILE }} был обновлен. Новая версия доступна в корне репозитория.'
+                });
+                console.log('Added comment to issue/PR #' + context.issue.number);
+              } else {
+                console.log('No issue or PR number found in context. Skipping comment creation.');
+              }
+            } catch (error) {
+              console.error('Error creating comment:', error.message);
+            }
 
       - uses: actions/github-script@v7
         with:
