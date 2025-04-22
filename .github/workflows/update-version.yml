@@ -75,9 +75,14 @@ jobs:
       - name: Update [version] and put [tag]. Commit and push
         run: |
           git add .
-          git commit -m "${{ env.COMMIT_MSG }}"
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit. Skipping commit step but still creating tag."
+          else
+            git commit -m "${{ env.COMMIT_MSG }}"
+          fi
           git tag -a v${{ env.TAG_MSG }} -m "update tag"
-          git push -u origin ${{ inputs.release_branch }} --tags 
+          git push -u origin ${{ inputs.release_branch }} --tags
 
   udpate_changelog:
     name: (VER) Changelog update
@@ -109,8 +114,13 @@ jobs:
       - name: Commit and push
         run: |
           git add .
-          git commit -m "[${{ needs.update-version.outputs.tag }}] ${{ env.CHANGELOG_FILE }}"
-          git push -u origin ${{ inputs.release_branch }} --tags 
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit in changelog. Skipping commit step."
+          else
+            git commit -m "[${{ needs.update-version.outputs.tag }}] ${{ env.CHANGELOG_FILE }}"
+            git push -u origin ${{ inputs.release_branch }} --tags
+          fi
 
       - uses: actions/upload-artifact@v4
         with:
