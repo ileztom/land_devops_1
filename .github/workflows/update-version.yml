@@ -75,7 +75,7 @@ jobs:
       - name: Update [version] and put [tag]. Commit and push
         run: |
           git add .
-          git diff --quiet || git commit -m "${{ env.COMMIT_MSG }}"
+          git commit -m "${{ env.COMMIT_MSG }}"
           git tag -a v${{ env.TAG_MSG }} -m "update tag"
           git push -u origin ${{ inputs.release_branch }} --tags 
 
