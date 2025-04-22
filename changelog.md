@@ -1,3 +1,7 @@
+#### [1.1.1] - [22.04.2025 16:35:58]     
+hotfix/key-1 fixed workflow
+
+---
 #### [1.1.1] - [22.04.2025 16:32:33]     
 hotfix/key-1 fixed workflow
 
