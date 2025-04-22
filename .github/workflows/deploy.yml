@@ -76,12 +76,21 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.issues.addLabels({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['${{ env.LABEL_PROD }}']
-            })
+            try {
+              if (context.issue && context.issue.number) {
+                github.rest.issues.addLabels({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  labels: ['${{ env.LABEL_PROD }}']
+                });
+                console.log('Added production label to issue/PR #' + context.issue.number);
+              } else {
+                console.log('No issue or PR number found in context. Skipping label addition.');
+              }
+            } catch (error) {
+              console.error('Error adding label:', error.message);
+            }
 
   create-release: 
     name: Create release 
