@@ -1,2 +1,2 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2022
-COPY start.ps1 .
+FROM nginx
+COPY . /usr/share/nginx/html
