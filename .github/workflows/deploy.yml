@@ -40,7 +40,7 @@ jobs:
 
   deploy-prod: 
     environment: prod
-    runs-on: self-hosted
+    runs-on: [self-hosted, windows]
     name: PROD
     permissions:
       contents: write
