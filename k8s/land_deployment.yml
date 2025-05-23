@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-land-devops-1
+spec:
+  replicas: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 10%
+      maxUnavailable: 10%
+  selector:
+    matchLabels:
+      app: land-devops-1
+  template:
+    metadata:
+      labels:
+        app: land-devops-1
+    spec:
+      containers:
+      - name: land-devops-1
+        image: ileztom/land_devops_1:v1.1.1
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "300Mi"
+            cpu: "20m"
+          requests:
+            memory: "100Mi"
+            cpu: "10m"
