@@ -1,4 +1,4 @@
-name: k8s added update strategy
+name: Version update and deploy to Docker pipeline
 
 on: 
   pull_request:
