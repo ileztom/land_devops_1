@@ -17,7 +17,7 @@ on:
 
 env:
     REPO_NAME: ${{ github.event.repository.name }}
-    CONTAINER_NAME: land_devops
+    CONTAINER_NAME: land_devops_1
     LABEL_DOCKER: dockerhub
 
 jobs:
